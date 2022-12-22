@@ -49,6 +49,8 @@ pub fn solve() {
     let mut tail = Point::new(0, 0);
     let mut visited = HashSet::<String>::new();
 
+    // let mut test = Point
+
     for line in input.lines() {
         let split = line.split_whitespace().collect::<Vec<_>>();
         let m: u32 = split[1].parse().expect("Expected to get an integer!");
@@ -107,4 +109,6 @@ pub fn solve() {
             // visited.insert(vis);
         }
     }
+
+
 }

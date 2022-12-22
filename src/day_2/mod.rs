@@ -44,4 +44,4 @@ pub fn solve() {
     }
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
-}    
+}

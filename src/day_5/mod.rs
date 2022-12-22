@@ -19,8 +19,7 @@ pub fn solve() {
             for line in (0..(initial.len() - 1)).rev() {
                 let c = initial[line].chars().nth(i).unwrap();
                 if c.is_alphabetic() {
-                    cargo.entry(key)
-                        .and_modify(|stack| stack.push(c));
+                    cargo.entry(key).and_modify(|stack| stack.push(c));
                 }
             }
         }
@@ -32,7 +31,7 @@ pub fn solve() {
         for word in line.split_whitespace() {
             match word.parse::<u32>() {
                 Ok(num) => vector.push(num),
-                Err(_) => { continue },
+                Err(_) => continue,
             }
         }
 
@@ -40,7 +39,7 @@ pub fn solve() {
 
         let mut from_stack = cargo.get(&from).unwrap().clone();
         let mut to_stack = cargo.get(&to).unwrap().clone();
-        
+
         for _ in 0..count {
             to_stack.push(from_stack.pop().unwrap());
         }
@@ -48,16 +47,12 @@ pub fn solve() {
         cargo.insert(from, from_stack);
         cargo.insert(to, to_stack);
     }
-    
+
     let mut top = String::new();
     for i in 1..=cargo.keys().len() {
-        top.push(*cargo.get(&(i as u32))
-            .unwrap()
-            .last()
-            .unwrap()
-        );
+        top.push(*cargo.get(&(i as u32)).unwrap().last().unwrap());
     }
-    
+
     println!("The top crates are: {}", top);
 
     // PART 2
@@ -75,20 +70,19 @@ pub fn solve() {
             for line in (0..(initial.len() - 1)).rev() {
                 let c = initial[line].chars().nth(i).unwrap();
                 if c.is_alphabetic() {
-                    cargo.entry(key)
-                        .and_modify(|stack| stack.push(c));
+                    cargo.entry(key).and_modify(|stack| stack.push(c));
                 }
             }
         }
     }
-    
+
     for line in split[1].lines() {
         let mut vector = Vec::<u32>::new();
 
         for word in line.split_whitespace() {
             match word.parse::<u32>() {
                 Ok(num) => vector.push(num),
-                Err(_) => { continue },
+                Err(_) => continue,
             }
         }
 
@@ -96,25 +90,21 @@ pub fn solve() {
 
         let mut from_stack = cargo.get(&from).unwrap().clone();
         let mut to_stack = cargo.get(&to).unwrap().clone();
-        
+
         let exclusive_i = from_stack.len() - (count as usize);
         let mut end: Vec<char> = Vec::from(&from_stack[exclusive_i..]);
-        
+
         from_stack.splice(exclusive_i.., []);
         to_stack.append(&mut end);
 
         cargo.insert(from, from_stack);
         cargo.insert(to, to_stack);
     }
-    
+
     let mut top = String::new();
     for i in 1..=cargo.keys().len() {
-        top.push(*cargo.get(&(i as u32))
-            .unwrap()
-            .last()
-            .unwrap()
-        );
+        top.push(*cargo.get(&(i as u32)).unwrap().last().unwrap());
     }
-    
+
     println!("The top crates with CrateMover 9001 are: {}", top);
-}    
+}

@@ -1,8 +1,13 @@
 use std::{env::current_dir, fs};
 
+pub enum TextEnum {
+    Sample,
+    Input,
+}
+
 pub mod structures {
     pub struct Day {
-        value: u32
+        value: u32,
     }
 
     impl Day {
@@ -21,18 +26,28 @@ pub mod structures {
 }
 
 pub fn read_input(day: u32) -> String {
-    let cwd = current_dir()
-        .expect("Failed to get the current working directory");
+    let cwd = current_dir().expect("Failed to get the current working directory");
 
     fs::read_to_string(cwd.join(format!("src/day_{}/input.txt", day)))
         .expect("input.txt does not exists!")
 }
 
 pub fn read_sample(day: u32) -> String {
-    let cwd = current_dir()
-        .expect("Failed to get the current working directory");
+    let cwd = current_dir().expect("Failed to get the current working directory");
 
     fs::read_to_string(cwd.join(format!("src/day_{}/sample.txt", day)))
+        .expect("sample.txt does not exists!")
+}
+
+pub fn read_txt_file(day: u32, filetype: TextEnum) -> String {
+    let cwd = current_dir().expect("Failed to get the current working directory");
+
+    let file = match filetype {
+        TextEnum::Sample => "sample.txt",
+        TextEnum::Input => "input.txt",
+    };
+
+    fs::read_to_string(cwd.join(format!("src/day_{}/{}", day, file)))
         .expect("sample.txt does not exists!")
 }
 
@@ -41,3 +56,7 @@ pub mod day_2;
 pub mod day_3;
 pub mod day_4;
 pub mod day_5;
+pub mod day_6;
+pub mod day_7;
+pub mod day_8;
+pub mod day_9;

@@ -3,7 +3,7 @@ use crate::read_input;
 pub fn solve() {
     println!("DAY 1");
     let input = read_input(1);
-    let (mut first, mut second, mut third): (u32, u32, u32) = (0, 0 ,0);
+    let (mut first, mut second, mut third): (u32, u32, u32) = (0, 0, 0);
 
     for calories_per_elves in input.split("\r\n\r\n") {
         let mut total: u32 = 0;
@@ -12,7 +12,7 @@ pub fn solve() {
                 Ok(num) => total += num,
                 Err(_) => panic!("Got a non-number calorie!"),
             };
-        };
+        }
 
         if total > first {
             (first, second, third) = (total, first, second);
@@ -23,6 +23,12 @@ pub fn solve() {
         }
     }
 
-    println!("The elf that is carrying the most calories has a total of: {} calories!", first);
-    println!("The top three elves carrying the most calories has a total of: {} calories combined!", first + second + third);
-}    
+    println!(
+        "The elf that is carrying the most calories has a total of: {} calories!",
+        first
+    );
+    println!(
+        "The top three elves carrying the most calories has a total of: {} calories combined!",
+        first + second + third
+    );
+}

@@ -41,13 +41,13 @@ pub fn solve() {
                     } else {
                         let set2 = HashSet::from_iter(rucksack.chars());
                         let set3 = set.clone();
-                        
+
                         set.clear();
                         for c in set3.intersection(&set2) {
                             set.insert(*c);
                         }
                     }
-                },
+                }
                 None => {
                     should_break = true;
                     break;
@@ -63,11 +63,15 @@ pub fn solve() {
             }
             break;
         }
-        
+
         if should_break == true {
             break;
         }
     }
 
-    println!("Sum priorities: {}, solved in: {:?}", total, start.elapsed());
-}    
+    println!(
+        "Sum priorities: {}, solved in: {:?}",
+        total,
+        start.elapsed()
+    );
+}
