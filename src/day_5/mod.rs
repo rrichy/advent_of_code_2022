@@ -1,16 +1,21 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, time::Instant};
 
 use crate::read_input;
 
 pub fn solve() {
     println!("DAY 5");
+
+    part_one();    
+    part_two();
+}
+
+fn part_one() -> String {
+    let start = Instant::now();
     let input = read_input(5);
     let mut cargo: HashMap<u32, Vec<char>> = HashMap::new();
-
     let split: Vec<&str> = input.split("\r\n\r\n").collect();
     let initial: Vec<&str> = split[0].lines().collect();
     let stack_line = initial[initial.len() - 1];
-
     for (i, stack_number) in stack_line.char_indices() {
         if stack_number.is_alphanumeric() {
             let key = stack_number.to_digit(10).unwrap();
@@ -24,7 +29,6 @@ pub fn solve() {
             }
         }
     }
-
     for line in split[1].lines() {
         let mut vector = Vec::<u32>::new();
 
@@ -47,21 +51,23 @@ pub fn solve() {
         cargo.insert(from, from_stack);
         cargo.insert(to, to_stack);
     }
-
     let mut top = String::new();
     for i in 1..=cargo.keys().len() {
         top.push(*cargo.get(&(i as u32)).unwrap().last().unwrap());
     }
-
     println!("The top crates are: {}", top);
+    println!("Solved in: {:?}", start.elapsed());
 
-    // PART 2
+    top
+}
+
+fn part_two() -> String {
+    let start = Instant::now();
+    let input = read_input(5);
     let mut cargo: HashMap<u32, Vec<char>> = HashMap::new();
-
     let split: Vec<&str> = input.split("\r\n\r\n").collect();
     let initial: Vec<&str> = split[0].lines().collect();
     let stack_line = initial[initial.len() - 1];
-
     for (i, stack_number) in stack_line.char_indices() {
         if stack_number.is_alphanumeric() {
             let key = stack_number.to_digit(10).unwrap();
@@ -75,7 +81,6 @@ pub fn solve() {
             }
         }
     }
-
     for line in split[1].lines() {
         let mut vector = Vec::<u32>::new();
 
@@ -100,11 +105,27 @@ pub fn solve() {
         cargo.insert(from, from_stack);
         cargo.insert(to, to_stack);
     }
-
     let mut top = String::new();
     for i in 1..=cargo.keys().len() {
         top.push(*cargo.get(&(i as u32)).unwrap().last().unwrap());
     }
-
     println!("The top crates with CrateMover 9001 are: {}", top);
+    println!("Solved in: {:?}", start.elapsed());
+
+    top
+}
+
+#[cfg(test)]
+mod day_five_tests {
+    use super::*;
+
+    #[test]
+    fn part_one_should_be_correct() {
+        assert_eq!("FCVRLMVQP".to_string(), part_one(), "Day 5 - Part 1 should be FCVRLMVQP");
+    }
+
+    #[test]
+    fn part_two_should_be_correct() {
+        assert_eq!("RWLWGJGFD".to_string(), part_two(), "Day 5 - Part 2 should be RWLWGJGFD");
+    }
 }
