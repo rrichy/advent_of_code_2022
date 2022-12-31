@@ -1,11 +1,12 @@
+use std::time::Instant;
+
 use crate::read_input;
 
 pub fn solve() {
     println!("DAY 1");
-    let (first, second, third) = main();
 
-    part_one(&first);
-    part_two(first, second, third);
+    part_one();
+    part_two();
 }
 
 pub fn main() -> (u32, u32, u32) {
@@ -33,22 +34,29 @@ pub fn main() -> (u32, u32, u32) {
     (first, second, third)
 }
 
-pub fn part_one(first: &u32) -> &u32 {
+pub fn part_one() -> u32 {
+    let start = Instant::now();
+    let (first, _s, _t) = main();
+
     println!(
         "The elf that is carrying the most calories has a total of: {} calories!",
         first
     );
+    println!("Solved in: {:?}", start.elapsed());
 
     first
 }
 
-pub fn part_two(first: u32, second: u32, third: u32) -> u32 {
+pub fn part_two() -> u32 {
+    let start = Instant::now();
+    let (first, second, third) = main();
     let sum = first + second + third;
 
     println!(
         "The top three elves carrying the most calories has a total of: {} calories combined!",
         &sum
     );
+    println!("Solved in: {:?}", start.elapsed());
 
     sum
 }
@@ -59,13 +67,11 @@ mod day_one_tests {
         
     #[test]
     fn part_one_should_be_correct() {
-        let (first, _s, _t) = main();
-        assert_eq!(&71471, part_one(&first), "Day 1 - Part 1 should be 71471");
+        assert_eq!(71471, part_one(), "Day 1 - Part 1 should be 71471");
     }
 
     #[test]
     fn part_two_should_be_correct() {
-        let (first, second, third) = main();
-        assert_eq!(211189, part_two(first, second, third), "Day 1 - Part 2 should be 211189");
+        assert_eq!(211189, part_two(), "Day 1 - Part 2 should be 211189");
     }
 }

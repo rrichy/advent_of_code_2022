@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, time::Instant};
 
 use crate::read_input;
 
@@ -10,6 +10,7 @@ pub fn solve() {
 }
 
 pub fn part_one() -> u32 {
+    let start = Instant::now();
     let input = read_input(2);
     let mut total: u32 = 0;
 
@@ -30,11 +31,13 @@ pub fn part_one() -> u32 {
     }
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
+    println!("Solved in: {:?}", start.elapsed());
     
     total
 }
 
 pub fn part_two() -> u32 {
+    let start = Instant::now();
     let input = read_input(2);
     let mut total: u32 = 0;
 
@@ -55,6 +58,7 @@ pub fn part_two() -> u32 {
     }
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
+    println!("Solved in: {:?}", start.elapsed());
 
     total
 }
