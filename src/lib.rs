@@ -1,27 +1,64 @@
-use std::{env::current_dir, fs};
+use std::{env::current_dir, fs, process, io};
 
 pub enum TextEnum {
     Sample,
     Input,
 }
 
-pub mod structures {
-    pub struct Day {
-        value: u32,
+pub struct Day {
+    value: u32,
+}
+
+impl Day {
+    pub fn build(value: u32) -> Result<Day, &'static str>{
+        if value < 1 || value > 31 {
+            return Err("Input a valid day. There are only 31 days in December!");
+        }
+
+        Ok(Day { value })
     }
 
-    impl Day {
-        pub fn new(value: u32) -> Day {
-            if value < 1 || value > 31 {
-                panic!("Input a valid day. There are only 31 days in December!");
-            }
+    pub fn value(&self) -> u32 {
+        self.value
+    }
+}
 
-            Day { value }
+pub struct Config {
+    pub day: Day,
+}
+
+impl Config {
+    pub fn build(args: &[String]) -> Result<Config, &'static str> {
+        let value: u32;
+        
+        if args.len() < 2 {
+            println!("Not enough arguments!");
+            value = loop {
+                println!("Enter which day to solve:");
+    
+                let mut day = String::new();
+    
+                io::stdin()
+                    .read_line(&mut day)
+                    .expect("Failed to read line");
+    
+                match day.trim().parse::<u32>() {
+                    Ok(num) => break num,
+                    Err(_) => continue,
+                }
+            };
+        } else {
+            value = args[1].parse().expect("Expected an integer");
         }
 
-        pub fn value(&self) -> u32 {
-            self.value
-        }
+        let day = Day::build(value).unwrap_or_else(|err| {
+            println!("Error: {}", err);
+            process::exit(1);
+        });
+
+        Ok(Config {
+            day,
+        })
     }
 }
 
@@ -60,3 +97,5 @@ pub mod day_6;
 pub mod day_7;
 pub mod day_8;
 pub mod day_9;
+pub mod day_10;
+pub mod day_11;
