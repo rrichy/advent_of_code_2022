@@ -4,6 +4,12 @@ use crate::read_input;
 
 pub fn solve() {
     println!("DAY 2");
+
+    part_one();
+    part_two();
+}
+
+pub fn part_one() -> u32 {
     let input = read_input(2);
     let mut total: u32 = 0;
 
@@ -24,7 +30,12 @@ pub fn solve() {
     }
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
+    
+    total
+}
 
+pub fn part_two() -> u32 {
+    let input = read_input(2);
     let mut total: u32 = 0;
 
     let mut map: HashMap<&str, u32> = HashMap::new();
@@ -44,4 +55,21 @@ pub fn solve() {
     }
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
+
+    total
+}
+
+#[cfg(test)]
+mod day_two_tests {
+    use super::*;
+
+    #[test]
+    fn part_one_should_be_correct() {
+        assert_eq!(13446, part_one(), "Day 2 - Part 1 should be 13446");
+    }
+
+    #[test]
+    fn part_two_should_be_correct() {
+        assert_eq!(13509, part_two(), "Day 2 - Part 2 should be 13509");
+    }
 }

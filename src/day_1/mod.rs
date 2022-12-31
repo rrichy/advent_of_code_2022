@@ -54,7 +54,7 @@ pub fn part_two(first: u32, second: u32, third: u32) -> u32 {
 }
 
 #[cfg(test)]
-mod tests {
+mod day_one_tests {
     use super::*;
         
     #[test]
@@ -68,5 +68,4 @@ mod tests {
         let (first, second, third) = main();
         assert_eq!(211189, part_two(first, second, third), "Day 1 - Part 2 should be 211189");
     }
-    
 }
