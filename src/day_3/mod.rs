@@ -4,6 +4,13 @@ use crate::read_input;
 
 pub fn solve() {
     println!("DAY 3");
+
+    part_one();
+    part_two();
+}
+
+
+pub fn part_one() -> u32 {
     let start = Instant::now();
     let input = read_input(3);
     let mut total: u32 = 0;
@@ -22,10 +29,14 @@ pub fn solve() {
             }
         }
     }
-
     println!("Sum: {}, solved in: {:?}", total, start.elapsed());
 
+    total
+}
+
+fn part_two() -> u32 {
     let start = Instant::now();
+    let input = read_input(3);
     let mut total: u32 = 0;
     let mut rucksacks = input.split("\r\n");
 
@@ -68,10 +79,26 @@ pub fn solve() {
             break;
         }
     }
-
     println!(
         "Sum priorities: {}, solved in: {:?}",
         total,
         start.elapsed()
     );
+
+    total
+}
+
+#[cfg(test)]
+mod day_three_tests {
+    use super::*;
+
+    #[test]
+    fn part_one_should_be_correct() {
+        assert_eq!(7917, part_one(), "Day 3 - Part 1 should be 7917");
+    }
+
+    #[test]
+    fn part_two_should_be_correct() {
+        assert_eq!(2585, part_two(), "Day 3 - Part 2 should be 2585");
+    }
 }
