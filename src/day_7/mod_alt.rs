@@ -5,20 +5,20 @@ struct File {
     size: u32,
 }
 
-struct Directory<'a> {
+struct Directory {
     name: String,
     files: Vec<File>,
-    directories: Vec<&'a Directory<'a>>,
+    directories: Vec<Directory>,
 }
 
-impl Directory<'_> {
+impl Directory {
     fn add_file(&mut self, file: File) {
         self.files.push(file);
         // self.files.insert(file.name.clone(), file);
     }
 
     fn add_directory(&mut self, dir: Directory) {
-        self.directories.push(&dir);
+        self.directories.push(dir);
         // self.directories.insert(dir.name.clone(), dir);
     }
 
@@ -95,7 +95,7 @@ impl Directory<'_> {
 pub fn solve() {
     println!("DAY 7");
 
-    let input = read_txt_file(7, crate::TextEnum::Input);
+    // let input = read_txt_file(7, crate::TextEnum::Input);
 
     let mut root = Directory {
         name: String::from("/"),
@@ -106,45 +106,45 @@ pub fn solve() {
     let mut pointer = Vec::new();
     pointer.push(&mut root);
 
-    for line in input.lines() {
-        if line.starts_with("$") {
-            let cd = line.split_whitespace().last().unwrap();
-            if cd != "ls" {
-                // on cd xxxxx
-                if cd != ".." {
-                    let new_dir: Directory<'static> = Directory {
-                        name: String::from(cd),
-                        files: Vec::new(),
-                        directories: Vec::new(),
-                    };
+    // for line in input.lines() {
+    //     if line.starts_with("$") {
+    //         let cd = line.split_whitespace().last().unwrap();
+    //         if cd != "ls" {
+    //             // on cd xxxxx
+    //             if cd != ".." {
+    //                 let new_dir: Directory<'static> = Directory {
+    //                     name: String::from(cd),
+    //                     files: Vec::new(),
+    //                     directories: Vec::new(),
+    //                 };
 
-                    let prev = pointer.last().unwrap();
-                    prev.add_directory(new_dir);
+    //                 let prev = pointer.last().unwrap();
+    //                 prev.add_directory(new_dir);
 
-                    pointer.push(&mut new_dir);
-                // on cd ..
-                } else {
-                    pointer.pop();
-                }
-            }
-        } else {
-            let mut words = line.split_whitespace();
-            let first = words.next();
+    //                 pointer.push(&mut new_dir);
+    //             // on cd ..
+    //             } else {
+    //                 pointer.pop();
+    //             }
+    //         }
+    //     } else {
+    //         let mut words = line.split_whitespace();
+    //         let first = words.next();
 
-            // when line starts with size
-            if first != Some("dir") {
-                let size = first
-                    .unwrap()
-                    .parse::<u32>()
-                    .expect("Expected to have integer!");
-                let name = String::from(words.next().unwrap());
-                let file: &'static File = &File { size, name };
+    //         // when line starts with size
+    //         if first != Some("dir") {
+    //             let size = first
+    //                 .unwrap()
+    //                 .parse::<u32>()
+    //                 .expect("Expected to have integer!");
+    //             let name = String::from(words.next().unwrap());
+    //             let file: &'static File = &File { size, name };
 
-                let dir = pointer.last().unwrap();
-                dir.add_file(*file);
-            }
-        }
-    }
+    //             let dir = pointer.last().unwrap();
+    //             dir.add_file(*file);
+    //         }
+    //     }
+    // }
 
     // // at this point all directory sizes are calculate
     // let total: u32 = dir_sizes.values().filter(|v| v <= &&(100000 as u32)).sum();

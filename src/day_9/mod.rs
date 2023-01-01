@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, time::Instant};
 
 use crate::read_txt_file;
 
@@ -43,13 +43,55 @@ impl Point {
 
 pub fn solve() {
     println!("DAY 9");
+
+    part_one();
+    part_two();
+    
+    // let mut rope = Vec::<Point>::new();
+    // let mut visited = HashSet::<String>::new();
+
+    // for _ in 0..10 {
+    //     rope.push(Point::new(0, 0));
+    // }
+
+    // for line in input.lines() {
+    //     let split = line.split_whitespace().collect::<Vec<_>>();
+    //     let m: u32 = split[1].parse().expect("Expected to get an integer!");
+
+    //     for _ in 0..m {
+    //         let head = rope.first().unwrap();
+    //         let mut target = Point::new(head.x, head.y);
+    //         if split[0] == "U" {
+    //             target.y += 1;
+    //         } else if split[0] == "D" {
+    //             target.y -= 1;
+    //         } else if split[0] == "L" {
+    //             target.x -= 1;
+    //         } else {
+    //             target.x += 1;
+    //         }
+
+    //         // for tail in rope {
+    //         //     head.move_with_tail(&target, &mut tail);
+    //         //     head = &tail;
+
+    //         // }
+
+    //         // let vis = *head.move_with_tail(&target, &mut tail);
+    //         // visited.insert(vis);
+    //     }
+    // }
+
+
+}
+
+fn part_one() -> u32 {
+    let start = Instant::now();
     let input = read_txt_file(9, crate::TextEnum::Input);
 
     let mut head = Point::new(0, 0);
     let mut tail = Point::new(0, 0);
     let mut visited = HashSet::<String>::new();
-
-    // let mut test = Point
 
     for line in input.lines() {
         let split = line.split_whitespace().collect::<Vec<_>>();
@@ -71,44 +113,28 @@ pub fn solve() {
             visited.insert(vis);
         }
     }
-
     println!("{:?}", visited.len());
-    assert_eq!(visited.len(), 6522);
+    println!("Solved in: {:?}", start.elapsed());
 
-    let mut rope = Vec::<Point>::new();
-    let mut visited = HashSet::<String>::new();
+    visited.len() as u32
+}
 
-    for _ in 0..10 {
-        rope.push(Point::new(0, 0));
+fn part_two() {
+    let input = read_txt_file(9, crate::TextEnum::Input);
+
+}
+
+#[cfg(test)]
+mod day_nine_tests {
+    use super::*;
+
+    #[test]
+    fn part_one_should_be_correct() {
+        assert_eq!(6522, part_one(), "Day 9 Part 1 should be 6522");
     }
 
-    for line in input.lines() {
-        let split = line.split_whitespace().collect::<Vec<_>>();
-        let m: u32 = split[1].parse().expect("Expected to get an integer!");
-
-        for _ in 0..m {
-            let head = rope.first().unwrap();
-            let mut target = Point::new(head.x, head.y);
-            if split[0] == "U" {
-                target.y += 1;
-            } else if split[0] == "D" {
-                target.y -= 1;
-            } else if split[0] == "L" {
-                target.x -= 1;
-            } else {
-                target.x += 1;
-            }
-
-            // for tail in rope {
-            //     head.move_with_tail(&target, &mut tail);
-            //     head = &tail;
-
-            // }
-
-            // let vis = *head.move_with_tail(&target, &mut tail);
-            // visited.insert(vis);
-        }
-    }
-
-
+    // #[test]
+    // fn part_two_should_be_correct() {
+    //     assert_eq!(537600, part_two(), "Day 8 Part 2 should be 537600");
+    // }
 }

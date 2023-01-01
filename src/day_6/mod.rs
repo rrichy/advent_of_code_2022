@@ -1,12 +1,19 @@
+use std::time::Instant;
+
 use crate::read_input;
 
 pub fn solve() {
     println!("DAY 6");
-    let input = read_input(6);
+    
+    part_one();
+    part_two();
+}
 
+fn part_one() -> usize {
+    let start = Instant::now();
+    let input = read_input(6);
     let mut packet = Vec::<char>::from_iter(input.split_at(4).0.chars());
     let mut first = 0;
-
     for (marker, c) in input.char_indices() {
         let mut is_unique = true;
 
@@ -27,12 +34,17 @@ pub fn solve() {
             break;
         }
     }
-
     println!("First marker detected after: {}", first);
+    println!("Solved in: {:?}", start.elapsed());
 
+    first
+}
+
+fn part_two () -> usize {
+    let start = Instant::now();
+    let input = read_input(6);
     let mut message = Vec::<char>::from_iter(input.split_at(14).0.chars());
     let mut first = 0;
-
     for (marker, c) in input.char_indices() {
         let mut is_unique = true;
 
@@ -53,6 +65,23 @@ pub fn solve() {
             break;
         }
     }
-
     println!("First message detected after: {}", first);
+    println!("Solved in: {:?}", start.elapsed());
+
+    first
+}
+
+#[cfg(test)]
+mod day_six_tests {
+    use super::*;
+
+    #[test]
+    fn part_one_should_be_correct() {
+        assert_eq!(1034, part_one(), "Day 6 Part 1 should be 1034");
+    }
+
+    #[test]
+    fn part_two_should_be_correct() {
+        assert_eq!(2472, part_two(), "Day 6 Part 2 should be 2472");
+    }
 }
