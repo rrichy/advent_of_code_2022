@@ -2,6 +2,7 @@ use std::{env::current_dir, fs, process, io};
 
 pub enum TextEnum {
     Sample,
+    SampleTwo,
     Input,
 }
 
@@ -81,6 +82,7 @@ pub fn read_txt_file(day: u32, filetype: TextEnum) -> String {
 
     let file = match filetype {
         TextEnum::Sample => "sample.txt",
+        TextEnum::SampleTwo => "sample2.txt",
         TextEnum::Input => "input.txt",
     };
 
