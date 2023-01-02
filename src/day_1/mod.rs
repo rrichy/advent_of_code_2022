@@ -9,48 +9,41 @@ pub fn solve() {
     part_two();
 }
 
-pub fn main() -> (u32, u32, u32) {
-    let input = read_input(1);
-    let (mut first, mut second, mut third): (u32, u32, u32) = (0, 0, 0);
-
-    for calories_per_elves in input.split("\r\n\r\n") {
-        let mut total: u32 = 0;
-        for calories in calories_per_elves.split("\r\n") {
-            match calories.trim().parse::<u32>() {
-                Ok(num) => total += num,
-                Err(_) => panic!("Got a non-number calorie!"),
-            };
-        }
-
-        if total > first {
-            (first, second, third) = (total, first, second);
-        } else if total > second {
-            (first, second, third) = (first, total, second);
-        } else if total > third {
-            (first, second, third) = (first, second, total);
-        }
-    }
-
-    (first, second, third)
-}
-
-pub fn part_one() -> u32 {
+fn part_one() -> u32 {
     let start = Instant::now();
-    let (first, _s, _t) = main();
+    let input = read_input(1);
+
+    let max = input.split("\r\n\r\n")
+        .map(|bag| {
+            bag.split_ascii_whitespace()
+                .map(|cal| cal.parse::<u32>().unwrap())
+                .sum::<u32>()
+        })
+        .max()
+        .unwrap();
 
     println!(
         "The elf that is carrying the most calories has a total of: {} calories!",
-        first
+        max
     );
     println!("Solved in: {:?}", start.elapsed());
 
-    first
+    max
 }
 
-pub fn part_two() -> u32 {
+fn part_two() -> u32 {
     let start = Instant::now();
-    let (first, second, third) = main();
-    let sum = first + second + third;
+    let input = read_input(1);
+
+    let mut calories = input.split("\r\n\r\n")
+        .map(|bag| {
+            bag.split_ascii_whitespace()
+                .map(|cal| cal.parse::<u32>().unwrap())
+                .sum::<u32>()
+        }).collect::<Vec<u32>>();
+
+    calories.sort_unstable_by(|a, b| b.cmp(a));
+    let sum = calories.iter().take(3).sum();
 
     println!(
         "The top three elves carrying the most calories has a total of: {} calories combined!",
