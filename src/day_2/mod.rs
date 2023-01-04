@@ -12,23 +12,22 @@ pub fn solve() {
 pub fn part_one() -> u32 {
     let start = Instant::now();
     let input = read_input(2);
-    let mut total: u32 = 0;
 
-    let mut map: HashMap<&str, u32> = HashMap::new();
+    let hand_map = HashMap::from([
+        ("A X", 1 + 3), // rock vs rock
+        ("A Y", 2 + 6), // rock vs paper
+        ("A Z", 3 + 0), // rock vs scissors
+        ("B X", 1 + 0), // paper vs rock
+        ("B Y", 2 + 3), // paper vs paper
+        ("B Z", 3 + 6), // paper vs rock
+        ("C X", 1 + 6), // scissors vs rock
+        ("C Y", 2 + 0), // scissors vs paper
+        ("C Z", 3 + 3), // scissors vs scissors
+    ]);
 
-    map.insert("A X", 1 + 3); // rock vs rock
-    map.insert("A Y", 2 + 6); // rock vs paper
-    map.insert("A Z", 3 + 0); // rock vs scissors
-    map.insert("B X", 1 + 0); // paper vs rock
-    map.insert("B Y", 2 + 3); // paper vs paper
-    map.insert("B Z", 3 + 6); // paper vs rock
-    map.insert("C X", 1 + 6); // scissors vs rock
-    map.insert("C Y", 2 + 0); // scissors vs paper
-    map.insert("C Z", 3 + 3); // scissors vs scissors
-
-    for round in input.split("\r\n") {
-        total += map.get(round).unwrap();
-    }
+    let total = input.lines()
+        .map(|round| hand_map.get(round).unwrap_or(&0))
+        .sum();
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
     println!("Solved in: {:?}", start.elapsed());
@@ -39,23 +38,22 @@ pub fn part_one() -> u32 {
 pub fn part_two() -> u32 {
     let start = Instant::now();
     let input = read_input(2);
-    let mut total: u32 = 0;
 
-    let mut map: HashMap<&str, u32> = HashMap::new();
+    let hand_map = HashMap::from([
+        ("A X", 3 + 0), // rock vs scissors
+        ("A Y", 1 + 3), // rock vs rock
+        ("A Z", 2 + 6), // rock vs paper
+        ("B X", 1 + 0), // paper vs rock
+        ("B Y", 2 + 3), // paper vs paper
+        ("B Z", 3 + 6), // paper vs scissors
+        ("C X", 2 + 0), // scissors vs paper
+        ("C Y", 3 + 3), // scissors vs scissors
+        ("C Z", 1 + 6), // scissors vs rock
+    ]);
 
-    map.insert("A X", 3 + 0); // rock vs scissors
-    map.insert("A Y", 1 + 3); // rock vs rock
-    map.insert("A Z", 2 + 6); // rock vs paper
-    map.insert("B X", 1 + 0); // paper vs rock
-    map.insert("B Y", 2 + 3); // paper vs paper
-    map.insert("B Z", 3 + 6); // paper vs scissors
-    map.insert("C X", 2 + 0); // scissors vs paper
-    map.insert("C Y", 3 + 3); // scissors vs scissors
-    map.insert("C Z", 1 + 6); // scissors vs rock
-
-    for round in input.split("\r\n") {
-        total += map.get(round).unwrap();
-    }
+    let total = input.lines()
+        .map(|round| hand_map.get(round).unwrap_or(&0))
+        .sum();
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
     println!("Solved in: {:?}", start.elapsed());
