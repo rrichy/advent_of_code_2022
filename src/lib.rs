@@ -1,4 +1,4 @@
-use std::{env::current_dir, fs, process, io};
+use std::{env::current_dir, fs, io, process};
 
 pub enum TextEnum {
     Sample,
@@ -11,7 +11,7 @@ pub struct Day {
 }
 
 impl Day {
-    pub fn build(value: u32) -> Result<Day, &'static str>{
+    pub fn build(value: u32) -> Result<Day, &'static str> {
         if value < 1 || value > 31 {
             return Err("Input a valid day. There are only 31 days in December!");
         }
@@ -31,18 +31,18 @@ pub struct Config {
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
         let value: u32;
-        
+
         if args.len() < 2 {
             println!("Not enough arguments!");
             value = loop {
                 println!("Enter which day to solve:");
-    
+
                 let mut day = String::new();
-    
+
                 io::stdin()
                     .read_line(&mut day)
                     .expect("Failed to read line");
-    
+
                 match day.trim().parse::<u32>() {
                     Ok(num) => break num,
                     Err(_) => continue,
@@ -57,9 +57,7 @@ impl Config {
             process::exit(1);
         });
 
-        Ok(Config {
-            day,
-        })
+        Ok(Config { day })
     }
 }
 
@@ -91,6 +89,8 @@ pub fn read_txt_file(day: u32, filetype: TextEnum) -> String {
 }
 
 pub mod day_1;
+pub mod day_10;
+pub mod day_11;
 pub mod day_2;
 pub mod day_3;
 pub mod day_4;
@@ -99,5 +99,3 @@ pub mod day_6;
 pub mod day_7;
 pub mod day_8;
 pub mod day_9;
-pub mod day_10;
-pub mod day_11;

@@ -25,16 +25,20 @@ fn part_one() -> i32 {
     for line in input.lines() {
         let line: Vec<&str> = line.split_whitespace().collect();
         let command = line[0];
-        let value: i32 = if line.len() == 2 { line[1].parse().unwrap_or(0) } else { 0 };
+        let value: i32 = if line.len() == 2 {
+            line[1].parse().unwrap_or(0)
+        } else {
+            0
+        };
 
         let init_cycle = cycle;
-        
+
         loop {
             cycle += 1;
             if (20..=220).step_by(40).collect::<Vec<_>>().contains(&cycle) {
                 sum += cycle * register;
             }
-            
+
             if command == "noop" || cycle - init_cycle == 2 {
                 break;
             }
@@ -62,10 +66,14 @@ fn part_two() -> Vec<String> {
     for line in input.lines() {
         let line: Vec<&str> = line.split_whitespace().collect();
         let command = line[0];
-        let value: i32 = if line.len() == 2 { line[1].parse().unwrap_or(0) } else { 0 };
+        let value: i32 = if line.len() == 2 {
+            line[1].parse().unwrap_or(0)
+        } else {
+            0
+        };
 
         let init_cycle = cycle;
-        
+
         loop {
             if should_paint(register, cycle) {
                 crt[cycle as usize] = '#';
@@ -87,7 +95,7 @@ fn part_two() -> Vec<String> {
         let row: String = crt[i..(i + 40)].iter().collect();
         println!("{:?}", &row);
         v.push(row);
-    };
+    }
     println!("Solved in: {:?}", start.elapsed());
 
     v
@@ -111,7 +119,9 @@ mod day_ten_tests {
             "#..#....#.#....###..#..#.###..#....#..#.",
             "#..#.#..#.#....#.#..#..#.#.#..#....#..#.",
             "###...##..#....#..#.#..#.#..#.#.....##..",
-        ].map(String::from).to_vec();
+        ]
+        .map(String::from)
+        .to_vec();
 
         assert_eq!(answer, part_two(), "Day 10 Part 2 should be BJFRHRFU");
     }

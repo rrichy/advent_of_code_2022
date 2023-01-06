@@ -1,4 +1,4 @@
-use std::{collections::HashSet, time::Instant, cmp::Ordering};
+use std::{cmp::Ordering, collections::HashSet, time::Instant};
 
 use crate::read_txt_file;
 
@@ -21,11 +21,16 @@ impl Point {
 
         head
     }
-    
+
     fn new(x: i32, y: i32) -> Self {
-        Point { x, y, visited: HashSet::from([String::from("0,0")]), tail: None }
+        Point {
+            x,
+            y,
+            visited: HashSet::from([String::from("0,0")]),
+            tail: None,
+        }
     }
-    
+
     fn is_touching(&self, p: &Point) -> bool {
         let delta_x = p.x - &self.x;
         let delta_y = p.y - &self.y;
@@ -52,7 +57,8 @@ impl Point {
             Ordering::Equal => 0,
         };
 
-        self.visited.insert(String::from(format!("{},{}", self.x, self.y)));
+        self.visited
+            .insert(String::from(format!("{},{}", self.x, self.y)));
 
         if !self.is_tail_touching() {
             let to_point = Point::new(self.x, self.y);
@@ -98,7 +104,7 @@ fn part_one() -> u32 {
 
     move_head(&mut head);
     let tail_visited_count: u32 = head.tail.unwrap().visited.len().try_into().unwrap();
-    
+
     println!("{:?}", tail_visited_count);
     println!("Solved in: {:?}", start.elapsed());
 
@@ -110,7 +116,7 @@ fn part_two() -> u32 {
     let mut head = Point::new_head(10);
 
     move_head(&mut head);
-    
+
     let mut current_point = &head;
     let tail_visited_count: u32 = loop {
         match &current_point.tail {

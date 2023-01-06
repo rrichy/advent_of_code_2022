@@ -4,7 +4,7 @@ use crate::read_input;
 
 pub fn solve() {
     println!("DAY 6");
-    
+
     part_one();
     part_two();
 }
@@ -40,7 +40,7 @@ fn part_one() -> usize {
     first
 }
 
-fn part_two () -> usize {
+fn part_two() -> usize {
     let start = Instant::now();
     let input = read_input(6);
     let mut message = Vec::<char>::from_iter(input.split_at(14).0.chars());

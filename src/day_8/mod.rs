@@ -4,11 +4,10 @@ use crate::read_txt_file;
 
 pub fn solve() {
     println!("DAY 8");
-    
+
     part_one();
 
-    
-part_two();
+    part_two();
 }
 
 fn part_one() -> u32 {
@@ -74,7 +73,7 @@ fn part_one() -> u32 {
     }
     println!("Number of visible trees: {:?}", visible);
     println!("Solved in: {:?}", start.elapsed());
-    
+
     visible
 }
 

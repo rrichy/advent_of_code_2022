@@ -116,7 +116,11 @@ fn part_two() -> u32 {
 
     let ununsed_space = 70_000_000 - dir_sizes.get("/").unwrap();
     let required_space = 30_000_000 - &ununsed_space;
-    let least = *dir_sizes.values().filter(|v| v > &&required_space).min().unwrap();
+    let least = *dir_sizes
+        .values()
+        .filter(|v| v > &&required_space)
+        .min()
+        .unwrap();
 
     println!("Least size directory: {}", least);
     println!("Solved in: {:?}", start.elapsed());

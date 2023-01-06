@@ -25,13 +25,14 @@ pub fn part_one() -> u32 {
         ("C Z", 3 + 3), // scissors vs scissors
     ]);
 
-    let total = input.lines()
+    let total = input
+        .lines()
         .map(|round| hand_map.get(round).unwrap_or(&0))
         .sum();
 
     println!("Won Rock Paper Scissors with a score of {}!", total);
     println!("Solved in: {:?}", start.elapsed());
-    
+
     total
 }
 
@@ -51,7 +52,8 @@ pub fn part_two() -> u32 {
         ("C Z", 1 + 6), // scissors vs rock
     ]);
 
-    let total = input.lines()
+    let total = input
+        .lines()
         .map(|round| hand_map.get(round).unwrap_or(&0))
         .sum();
 

@@ -5,7 +5,7 @@ use crate::read_input;
 pub fn solve() {
     println!("DAY 5");
 
-    part_one();    
+    part_one();
     part_two();
 }
 
@@ -121,11 +121,19 @@ mod day_five_tests {
 
     #[test]
     fn part_one_should_be_correct() {
-        assert_eq!("FCVRLMVQP".to_string(), part_one(), "Day 5 - Part 1 should be FCVRLMVQP");
+        assert_eq!(
+            "FCVRLMVQP".to_string(),
+            part_one(),
+            "Day 5 - Part 1 should be FCVRLMVQP"
+        );
     }
 
     #[test]
     fn part_two_should_be_correct() {
-        assert_eq!("RWLWGJGFD".to_string(), part_two(), "Day 5 - Part 2 should be RWLWGJGFD");
+        assert_eq!(
+            "RWLWGJGFD".to_string(),
+            part_two(),
+            "Day 5 - Part 2 should be RWLWGJGFD"
+        );
     }
 }

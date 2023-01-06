@@ -13,7 +13,8 @@ fn part_one() -> u32 {
     let start = Instant::now();
     let input = read_input(1);
 
-    let max = input.split("\r\n\r\n")
+    let max = input
+        .split("\r\n\r\n")
         .map(|bag| {
             bag.split_ascii_whitespace()
                 .map(|cal| cal.parse::<u32>().unwrap())
@@ -35,12 +36,14 @@ fn part_two() -> u32 {
     let start = Instant::now();
     let input = read_input(1);
 
-    let mut calories = input.split("\r\n\r\n")
+    let mut calories = input
+        .split("\r\n\r\n")
         .map(|bag| {
             bag.split_ascii_whitespace()
                 .map(|cal| cal.parse::<u32>().unwrap())
                 .sum::<u32>()
-        }).collect::<Vec<u32>>();
+        })
+        .collect::<Vec<u32>>();
 
     calories.sort_unstable_by(|a, b| b.cmp(a));
     let sum = calories.iter().take(3).sum();
@@ -57,7 +60,7 @@ fn part_two() -> u32 {
 #[cfg(test)]
 mod day_one_tests {
     use super::*;
-        
+
     #[test]
     fn part_one_should_be_correct() {
         assert_eq!(71471, part_one(), "Day 1 - Part 1 should be 71471");

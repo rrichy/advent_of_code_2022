@@ -9,12 +9,12 @@ pub fn solve() {
     part_two();
 }
 
-
 pub fn part_one() -> u32 {
     let start = Instant::now();
     let input = read_input(3);
 
-    let total = input.lines()
+    let total = input
+        .lines()
         .map(|r| {
             let (left, right) = r.split_at(r.len() / 2);
             for c in HashSet::<char>::from_iter(left.chars()) {
@@ -23,7 +23,7 @@ pub fn part_one() -> u32 {
                     return match c.is_ascii_lowercase() {
                         true => d - 96,
                         false => d - 64 + 26,
-                    }
+                    };
                 }
             }
             0
@@ -38,7 +38,9 @@ fn part_two() -> u32 {
     let start = Instant::now();
     let input = read_input(3);
 
-    let total: u32 = input.lines().collect::<Vec<_>>()
+    let total: u32 = input
+        .lines()
+        .collect::<Vec<_>>()
         .chunks(3)
         .map(|chunk| {
             for c in HashSet::<char>::from_iter(chunk[0].chars()) {
@@ -47,7 +49,7 @@ fn part_two() -> u32 {
                     return match c.is_ascii_lowercase() {
                         true => d - 96,
                         false => d - 64 + 26,
-                    }
+                    };
                 }
             }
             0
