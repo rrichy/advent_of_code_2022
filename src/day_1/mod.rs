@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use crate::read_input;
+use crate::read_txt_file;
 
 pub fn solve() {
     println!("DAY 1");
@@ -11,7 +11,7 @@ pub fn solve() {
 
 fn part_one() -> u32 {
     let start = Instant::now();
-    let input = read_input(1);
+    let input = read_txt_file(1, crate::TextEnum::Input);
 
     let max = input
         .split("\r\n\r\n")
@@ -34,7 +34,7 @@ fn part_one() -> u32 {
 
 fn part_two() -> u32 {
     let start = Instant::now();
-    let input = read_input(1);
+    let input = read_txt_file(1, crate::TextEnum::Input);
 
     let mut calories = input
         .split("\r\n\r\n")

@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use crate::read_input;
+use crate::read_txt_file;
 
 pub fn solve() {
     println!("DAY 6");
@@ -11,7 +11,7 @@ pub fn solve() {
 
 fn part_one() -> usize {
     let start = Instant::now();
-    let input = read_input(6);
+    let input = read_txt_file(6, crate::TextEnum::Input);
     let mut packet = Vec::<char>::from_iter(input.split_at(4).0.chars());
     let mut first = 0;
     for (marker, c) in input.char_indices() {
@@ -42,7 +42,7 @@ fn part_one() -> usize {
 
 fn part_two() -> usize {
     let start = Instant::now();
-    let input = read_input(6);
+    let input = read_txt_file(6, crate::TextEnum::Input);
     let mut message = Vec::<char>::from_iter(input.split_at(14).0.chars());
     let mut first = 0;
     for (marker, c) in input.char_indices() {

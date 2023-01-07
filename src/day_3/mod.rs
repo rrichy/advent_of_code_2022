@@ -1,6 +1,6 @@
 use std::{collections::HashSet, time::Instant};
 
-use crate::read_input;
+use crate::read_txt_file;
 
 pub fn solve() {
     println!("DAY 3");
@@ -11,7 +11,7 @@ pub fn solve() {
 
 pub fn part_one() -> u32 {
     let start = Instant::now();
-    let input = read_input(3);
+    let input = read_txt_file(3, crate::TextEnum::Input);
 
     let total = input
         .lines()
@@ -36,7 +36,7 @@ pub fn part_one() -> u32 {
 
 fn part_two() -> u32 {
     let start = Instant::now();
-    let input = read_input(3);
+    let input = read_txt_file(3, crate::TextEnum::Input);
 
     let total: u32 = input
         .lines()

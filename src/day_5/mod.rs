@@ -1,6 +1,8 @@
-use std::{collections::HashMap, time::Instant};
+use std::time::Instant;
 
-use crate::read_input;
+use regex::Regex;
+
+use crate::read_txt_file;
 
 pub fn solve() {
     println!("DAY 5");
@@ -11,50 +13,41 @@ pub fn solve() {
 
 fn part_one() -> String {
     let start = Instant::now();
-    let input = read_input(5);
-    let mut cargo: HashMap<u32, Vec<char>> = HashMap::new();
-    let split: Vec<&str> = input.split("\r\n\r\n").collect();
-    let initial: Vec<&str> = split[0].lines().collect();
-    let stack_line = initial[initial.len() - 1];
-    for (i, stack_number) in stack_line.char_indices() {
-        if stack_number.is_alphanumeric() {
-            let key = stack_number.to_digit(10).unwrap();
-            cargo.insert(key, Vec::new());
+    let input = read_txt_file(5, crate::TextEnum::Input);
 
-            for line in (0..(initial.len() - 1)).rev() {
-                let c = initial[line].chars().nth(i).unwrap();
-                if c.is_alphabetic() {
-                    cargo.entry(key).and_modify(|stack| stack.push(c));
+    let mut cargo: Vec<Vec<char>> = vec![];
+    let (initial, moves) = input.split_once("\r\n\r\n").unwrap();
+    for row in initial.lines().rev().skip(1) {
+        for (index, c) in row.chars().skip(1).step_by(4).enumerate() {
+            if c.is_alphabetic() {
+                match cargo.get_mut(index) {
+                    Some(v) => v.push(c),
+                    None => cargo.insert(index, vec![c]),
                 }
             }
         }
     }
-    for line in split[1].lines() {
-        let mut vector = Vec::<u32>::new();
 
-        for word in line.split_whitespace() {
-            match word.parse::<u32>() {
-                Ok(num) => vector.push(num),
-                Err(_) => continue,
-            }
-        }
-
-        let (count, from, to) = (vector[0], vector[1], vector[2]);
-
-        let mut from_stack = cargo.get(&from).unwrap().clone();
-        let mut to_stack = cargo.get(&to).unwrap().clone();
+    let re = Regex::new(r"\d+").unwrap();
+    for line in moves.lines() {
+        let (count, from, to) = match re
+            .find_iter(line)
+            .map(|d| d.as_str().parse::<usize>().unwrap())
+            .collect::<Vec<usize>>()[..]
+        {
+            [a, b, c] => (a, b, c),
+            _ => unreachable!(),
+        };
 
         for _ in 0..count {
-            to_stack.push(from_stack.pop().unwrap());
+            let temp = cargo[from - 1].pop().unwrap();
+            cargo[to - 1].push(temp);
         }
-
-        cargo.insert(from, from_stack);
-        cargo.insert(to, to_stack);
     }
-    let mut top = String::new();
-    for i in 1..=cargo.keys().len() {
-        top.push(*cargo.get(&(i as u32)).unwrap().last().unwrap());
-    }
+    let top = cargo.iter().fold(String::new(), |mut s, c| {
+        s.push(*c.last().unwrap());
+        s
+    });
     println!("The top crates are: {}", top);
     println!("Solved in: {:?}", start.elapsed());
 
@@ -63,52 +56,40 @@ fn part_one() -> String {
 
 fn part_two() -> String {
     let start = Instant::now();
-    let input = read_input(5);
-    let mut cargo: HashMap<u32, Vec<char>> = HashMap::new();
-    let split: Vec<&str> = input.split("\r\n\r\n").collect();
-    let initial: Vec<&str> = split[0].lines().collect();
-    let stack_line = initial[initial.len() - 1];
-    for (i, stack_number) in stack_line.char_indices() {
-        if stack_number.is_alphanumeric() {
-            let key = stack_number.to_digit(10).unwrap();
-            cargo.insert(key, Vec::new());
+    let input = read_txt_file(5, crate::TextEnum::Input);
 
-            for line in (0..(initial.len() - 1)).rev() {
-                let c = initial[line].chars().nth(i).unwrap();
-                if c.is_alphabetic() {
-                    cargo.entry(key).and_modify(|stack| stack.push(c));
+    let mut cargo: Vec<Vec<char>> = vec![];
+    let (initial, moves) = input.split_once("\r\n\r\n").unwrap();
+    for row in initial.lines().rev().skip(1) {
+        for (index, c) in row.chars().skip(1).step_by(4).enumerate() {
+            if c.is_alphabetic() {
+                match cargo.get_mut(index) {
+                    Some(v) => v.push(c),
+                    None => cargo.insert(index, vec![c]),
                 }
             }
         }
     }
-    for line in split[1].lines() {
-        let mut vector = Vec::<u32>::new();
 
-        for word in line.split_whitespace() {
-            match word.parse::<u32>() {
-                Ok(num) => vector.push(num),
-                Err(_) => continue,
-            }
-        }
+    let re = Regex::new(r"\d+").unwrap();
+    for line in moves.lines() {
+        let (count, from, to) = match re
+            .find_iter(line)
+            .map(|d| d.as_str().parse::<usize>().unwrap())
+            .collect::<Vec<usize>>()[..]
+        {
+            [a, b, c] => (a, b, c),
+            _ => unreachable!(),
+        };
 
-        let (count, from, to) = (vector[0], vector[1], vector[2]);
-
-        let mut from_stack = cargo.get(&from).unwrap().clone();
-        let mut to_stack = cargo.get(&to).unwrap().clone();
-
-        let exclusive_i = from_stack.len() - (count as usize);
-        let mut end: Vec<char> = Vec::from(&from_stack[exclusive_i..]);
-
-        from_stack.splice(exclusive_i.., []);
-        to_stack.append(&mut end);
-
-        cargo.insert(from, from_stack);
-        cargo.insert(to, to_stack);
+        let start = cargo[from - 1].len() - count;
+        let mut temp: Vec<char> = cargo[from - 1].splice(start.., []).collect();
+        cargo[to - 1].append(&mut temp);
     }
-    let mut top = String::new();
-    for i in 1..=cargo.keys().len() {
-        top.push(*cargo.get(&(i as u32)).unwrap().last().unwrap());
-    }
+    let top = cargo.iter().fold(String::new(), |mut s, c| {
+        s.push(*c.last().unwrap());
+        s
+    });
     println!("The top crates with CrateMover 9001 are: {}", top);
     println!("Solved in: {:?}", start.elapsed());
 

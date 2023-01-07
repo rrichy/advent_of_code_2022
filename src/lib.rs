@@ -61,20 +61,6 @@ impl Config {
     }
 }
 
-pub fn read_input(day: u32) -> String {
-    let cwd = current_dir().expect("Failed to get the current working directory");
-
-    fs::read_to_string(cwd.join(format!("src/day_{}/input.txt", day)))
-        .expect("input.txt does not exists!")
-}
-
-pub fn read_sample(day: u32) -> String {
-    let cwd = current_dir().expect("Failed to get the current working directory");
-
-    fs::read_to_string(cwd.join(format!("src/day_{}/sample.txt", day)))
-        .expect("sample.txt does not exists!")
-}
-
 pub fn read_txt_file(day: u32, filetype: TextEnum) -> String {
     let cwd = current_dir().expect("Failed to get the current working directory");
 

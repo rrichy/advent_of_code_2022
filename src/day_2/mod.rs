@@ -1,6 +1,6 @@
 use std::{collections::HashMap, time::Instant};
 
-use crate::read_input;
+use crate::read_txt_file;
 
 pub fn solve() {
     println!("DAY 2");
@@ -11,7 +11,7 @@ pub fn solve() {
 
 pub fn part_one() -> u32 {
     let start = Instant::now();
-    let input = read_input(2);
+    let input = read_txt_file(2, crate::TextEnum::Input);
 
     let hand_map = HashMap::from([
         ("A X", 1 + 3), // rock vs rock
@@ -38,7 +38,7 @@ pub fn part_one() -> u32 {
 
 pub fn part_two() -> u32 {
     let start = Instant::now();
-    let input = read_input(2);
+    let input = read_txt_file(2, crate::TextEnum::Input);
 
     let hand_map = HashMap::from([
         ("A X", 3 + 0), // rock vs scissors
