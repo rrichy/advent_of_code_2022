@@ -1,5 +1,5 @@
-use std::{time::Instant};
 use itertools::Itertools;
+use std::time::Instant;
 
 use crate::read_txt_file;
 
@@ -14,9 +14,12 @@ fn part_one() -> usize {
     let start = Instant::now();
     let input = read_txt_file(6, crate::TextEnum::Input);
 
-    let marker = input.as_bytes()
+    let marker = input
+        .as_bytes()
         .windows(4)
-        .position(|packet| packet.iter().all_unique()).unwrap() + 4;
+        .position(|packet| packet.iter().all_unique())
+        .unwrap()
+        + 4;
 
     println!("First marker detected after: {}", marker);
     println!("Solved in: {:?}", start.elapsed());
@@ -28,11 +31,13 @@ fn part_two() -> usize {
     let start = Instant::now();
     let input = read_txt_file(6, crate::TextEnum::Input);
 
-    let message = input.as_bytes()
+    let message = input
+        .as_bytes()
         .windows(14)
         .position(|packet| packet.iter().all_unique())
-        .unwrap() + 14;
-    
+        .unwrap()
+        + 14;
+
     println!("First message detected after: {}", message);
     println!("Solved in: {:?}", start.elapsed());
 

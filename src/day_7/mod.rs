@@ -1,5 +1,3 @@
-mod mod_alt;
-
 use std::{collections::HashMap, time::Instant};
 
 use crate::read_txt_file;
@@ -15,50 +13,39 @@ fn part_one() -> u32 {
     let start = Instant::now();
     let input = read_txt_file(7, crate::TextEnum::Input);
 
-    let mut dir_stack = Vec::<&str>::new();
-    let mut dir_sizes = HashMap::<String, u32>::new();
+    let mut dir_stack = vec![];
+    let mut dir_sizes = HashMap::new();
+
     for line in input.lines() {
-        if line.starts_with("$") {
-            let dir = line.split_whitespace().last().unwrap();
-            if dir != "ls" {
-                // on cd xxxxx
-                if dir != ".." {
-                    dir_stack.push(&dir);
+        let line = line.split_whitespace().collect::<Vec<_>>();
 
-                    let dir = dir_stack.to_vec().join("/");
-                    dir_sizes.insert(dir, 0);
-                // on cd ..
-                } else {
-                    dir_stack.pop();
-                }
+        if let [_, _, name] = line[..] {
+            if name == ".." {
+                dir_stack.pop();
+            } else {
+                dir_stack.push(name);
             }
-        } else {
-            let mut words = line.split_whitespace();
-            let first = words.next();
+        }
 
-            // when line starts with size
-            if first != Some("dir") {
-                let size = first
-                    .unwrap()
-                    .parse::<u32>()
-                    .expect("Expected to have integer!");
+        if let [a, _] = line[..] {
+            if a != "$" && a != "dir" {
+                let size: u32 = a.parse().unwrap();
+                dir_stack.iter().fold(String::new(), |mut path, dir| {
+                    path.push_str(format!("__{dir}").as_str());
+                    dir_sizes
+                        .entry(path.clone())
+                        .and_modify(|s| *s += size)
+                        .or_insert(size);
 
-                let mut directories = Vec::<String>::new();
-
-                for folder in &dir_stack {
-                    match directories.last() {
-                        Some(prev) => directories.push(format!("{}/{}", prev, folder)),
-                        None => directories.push(String::from(*folder)),
-                    }
-                }
-
-                for dir in directories {
-                    dir_sizes.entry(dir).and_modify(|s| *s += size).or_insert(0);
-                }
+                    path
+                });
             }
         }
     }
-    let total: u32 = dir_sizes.values().filter(|v| v <= &&(100000 as u32)).sum();
+
+    let total = dir_sizes
+        .values()
+        .fold(0, |sum, v| if v <= &100000 { sum + v } else { sum });
     println!("Sum of directories: {}", total);
     println!("Solved in: {:?}", start.elapsed());
 
@@ -69,58 +56,45 @@ fn part_two() -> u32 {
     let start = Instant::now();
     let input = read_txt_file(7, crate::TextEnum::Input);
 
-    let mut dir_stack = Vec::<&str>::new();
-    let mut dir_sizes = HashMap::<String, u32>::new();
+    let mut dir_stack = vec![];
+    let mut dir_sizes = HashMap::new();
 
     for line in input.lines() {
-        if line.starts_with("$") {
-            let dir = line.split_whitespace().last().unwrap();
-            if dir != "ls" {
-                // on cd xxxxx
-                if dir != ".." {
-                    dir_stack.push(&dir);
+        let line = line.split_whitespace().collect::<Vec<_>>();
 
-                    let dir = dir_stack.to_vec().join("/");
-                    dir_sizes.insert(dir, 0);
-                // on cd ..
-                } else {
-                    dir_stack.pop();
-                }
+        if let [_, _, name] = line[..] {
+            if name == ".." {
+                dir_stack.pop();
+            } else {
+                dir_stack.push(name);
             }
-        } else {
-            let mut words = line.split_whitespace();
-            let first = words.next();
+        }
 
-            // when line starts with size
-            if first != Some("dir") {
-                let size = first
-                    .unwrap()
-                    .parse::<u32>()
-                    .expect("Expected to have integer!");
+        if let [a, _] = line[..] {
+            if a != "$" && a != "dir" {
+                let size: u32 = a.parse().unwrap();
+                dir_stack.iter().fold(String::new(), |mut path, dir| {
+                    path.push_str(format!("__{dir}").as_str());
+                    dir_sizes
+                        .entry(path.clone())
+                        .and_modify(|s| *s += size)
+                        .or_insert(size);
 
-                let mut directories = Vec::<String>::new();
-
-                for folder in &dir_stack {
-                    match directories.last() {
-                        Some(prev) => directories.push(format!("{}/{}", prev, folder)),
-                        None => directories.push(String::from(*folder)),
-                    }
-                }
-
-                for dir in directories {
-                    dir_sizes.entry(dir).and_modify(|s| *s += size).or_insert(0);
-                }
+                    path
+                });
             }
         }
     }
 
-    let ununsed_space = 70_000_000 - dir_sizes.get("/").unwrap();
+    let ununsed_space = 70_000_000 - dir_sizes.get("__/").unwrap();
     let required_space = 30_000_000 - &ununsed_space;
-    let least = *dir_sizes
-        .values()
-        .filter(|v| v > &&required_space)
-        .min()
-        .unwrap();
+    let least = dir_sizes.values().fold(70_000_000, |min, v| {
+        if v > &required_space && v < &min {
+            *v
+        } else {
+            min
+        }
+    });
 
     println!("Least size directory: {}", least);
     println!("Solved in: {:?}", start.elapsed());
