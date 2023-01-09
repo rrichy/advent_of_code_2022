@@ -6,7 +6,6 @@ pub fn solve() {
     println!("DAY 8");
 
     part_one();
-
     part_two();
 }
 
@@ -28,11 +27,9 @@ fn part_one() -> u32 {
         for (x, t) in row.iter().enumerate() {
             // [left, top, right, bottom]
             let mut visibility = [true; 4];
-            let mut scenic = [0; 4];
 
             // check vertically, top to bottom
             for i in (0..y).rev() {
-                scenic[1] += 1;
                 if &rows[i][x] >= t {
                     visibility[1] = false;
                     break;
@@ -41,7 +38,6 @@ fn part_one() -> u32 {
 
             // checking vertically, bottom to top
             for i in (y + 1)..rows.len() {
-                scenic[3] += 1;
                 if &rows[i][x] >= t {
                     visibility[3] = false;
                     break;
@@ -50,7 +46,6 @@ fn part_one() -> u32 {
 
             // check horizontally, left to right
             for i in (0..x).rev() {
-                scenic[0] += 1;
                 if row[i] >= *t {
                     visibility[0] = false;
                     break;
@@ -59,7 +54,6 @@ fn part_one() -> u32 {
 
             // check horizontally, right to left
             for i in (x + 1)..(row.len()) {
-                scenic[2] += 1;
                 if row[i] >= *t {
                     visibility[2] = false;
                     break;
@@ -94,14 +88,12 @@ fn part_two() -> u32 {
     for (y, row) in rows.iter().enumerate() {
         for (x, t) in row.iter().enumerate() {
             // [left, top, right, bottom]
-            let mut visibility = [true; 4];
             let mut scenic = [0; 4];
 
             // check vertically, top to bottom
             for i in (0..y).rev() {
                 scenic[1] += 1;
                 if &rows[i][x] >= t {
-                    visibility[1] = false;
                     break;
                 }
             }
@@ -110,7 +102,6 @@ fn part_two() -> u32 {
             for i in (y + 1)..rows.len() {
                 scenic[3] += 1;
                 if &rows[i][x] >= t {
-                    visibility[3] = false;
                     break;
                 }
             }
@@ -119,7 +110,6 @@ fn part_two() -> u32 {
             for i in (0..x).rev() {
                 scenic[0] += 1;
                 if row[i] >= *t {
-                    visibility[0] = false;
                     break;
                 }
             }
@@ -128,20 +118,11 @@ fn part_two() -> u32 {
             for i in (x + 1)..(row.len()) {
                 scenic[2] += 1;
                 if row[i] >= *t {
-                    visibility[2] = false;
                     break;
                 }
             }
-
-            let mut scenic_product = 1;
-
-            for sum in scenic {
-                scenic_product *= sum;
-            }
-
-            if scenic_product > max_scenic {
-                max_scenic = scenic_product;
-            }
+            
+            max_scenic = *[max_scenic, scenic.iter().product()].iter().max().unwrap();
         }
     }
     println!("Max scenic attainable: {:?}", max_scenic);

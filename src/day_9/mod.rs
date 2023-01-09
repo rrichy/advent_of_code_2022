@@ -32,10 +32,7 @@ impl Point {
     }
 
     fn is_touching(&self, p: &Point) -> bool {
-        let delta_x = p.x - &self.x;
-        let delta_y = p.y - &self.y;
-
-        delta_x.abs() <= 1 && delta_y.abs() <= 1
+        p.x.abs_diff(self.x) <= 1 && p.y.abs_diff(self.y) <= 1
     }
 
     fn is_tail_touching(&self) -> bool {
